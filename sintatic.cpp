@@ -55,8 +55,7 @@ using namespace std;
 #define CMD_BLOCO 46 
 #define SENAO_FAT 47
 #define CMD_REP 48
-
-#
+#define EPSILON 49
 
 typedef struct {
     int tipo;
@@ -68,10 +67,48 @@ typedef struct {
     vector<int> Corpo; 
 } Producao;
 
-vector<Producao> buildProductions() {
-    vector<Producao> producoes;
-    producoes.push_back({ 0, {}});
-}
+vector<Producao> producoes = {
+    {0, {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO}},
+    {1, {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES}},
+    {2, {DECL_VARS, CMD}},
+    {3, {CMDS}},
+    {4, {DECL_VAR, DECL_VARS_FAT}},
+    {5, {DECL_VARS}},
+    {6, {EPSILON}},
+    {7, {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA}},
+    {8, {ID, LISTA_ID_FAT}},
+    {9, {VIRGULA, LISTA_ID}},
+    {10, {EPSILON}},
+    {11, {CMD, CMDS_FAT}},
+    {12, {CMDS}},
+    {13, {EPSILON}},
+    {14, {CMD_ATRIB}},
+    {15, {CMD_COND}},
+    {16, {CMD_REP}},
+    {17, {ID, IGUAL, ARIT3, PONTO_VIRGULA}},
+    {18, {ARIT2, ARIT3_}},
+    {19, {OP_ARIT_PREC3, ARIT2, ARIT3_}},
+    {20, {EPSILON}},
+    {21, {ARIT1, ARIT2_}},
+    {22, {OP_ARIT_PREC2, ARIT1, ARIT2_}},
+    {23, {EPSILON}},
+    {24, {ARIT_FATOR, ARIT1_}},
+    {25, {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_}},
+    {26, {EPSILON}},
+    {27, {ID}},
+    {28, {CONST_INT}},
+    {29, {CONST_CHAR}},
+    {30, {CONST_FLOAT}},
+    {31, {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES}},
+    {32, {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT}},
+    {33, {ARIT3, RELOP, ARIT3}},
+    {34, {CMD}},
+    {35, {BLOCO}},
+    {36, {SENAO, CMD_BLOCO}},
+    {37, {EPSILON}},
+    {38, {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO}},
+    {39, {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES}},
+};
 
 int predictiveTable[24][23];
 int** buildPredictiveTable() {
