@@ -1,7 +1,6 @@
 #include<stack>
 #include<vector>
 
-
 using namespace std;
 
 //Terminal
@@ -28,32 +27,34 @@ using namespace std;
 #define RELOP 20
 #define FACA 21
 #define ENTAO 22
+#define DOIS_PONTOS 23
+#define IGUAL 24
 
 //Not terminal
-#define INI 23 
-#define BLOCO 24 
-#define BLOCO_AUX 25 
-#define DECL_VARS 26 
-#define DECL_VARS_FAT 27 
-#define DECL_VAR 28 
-#define LISTA_ID 29 
-#define LISTA_ID_FAT 30 
-#define CMDS 31 
-#define CMDS_FAT 32 
-#define CMD 33 
-#define CMD_ATRIB 34 
-#define ARIT3 35 
-#define ARIT3_ 36 
-#define ARIT2 37 
-#define ARIT2_ 38 
-#define ARIT1 39 
-#define ARIT1_ 40 
-#define ARIT_FATOR 41 
-#define CMD_COND 42 
-#define COND 43 
-#define CMD_BLOCO 44 
-#define SENAO_FAT 45 
-#define CMD_REP 46 
+#define INI 25 
+#define BLOCO 26 
+#define BLOCO_AUX 27 
+#define DECL_VARS 28 
+#define DECL_VARS_FAT 29 
+#define DECL_VAR 30 
+#define LISTA_ID 31 
+#define LISTA_ID_FAT 32 
+#define CMDS 33 
+#define CMDS_FAT 34 
+#define CMD 35 
+#define CMD_ATRIB 36 
+#define ARIT3 37 
+#define ARIT3_ 38 
+#define ARIT2 39 
+#define ARIT2_ 40 
+#define ARIT1 41 
+#define ARIT1_ 42 
+#define ARIT_FATOR 43 
+#define CMD_COND 44 
+#define COND 45 
+#define CMD_BLOCO 46 
+#define SENAO_FAT 47
+#define CMD_REP 48
 
 #
 
@@ -67,14 +68,19 @@ typedef struct {
     vector<int> Corpo; 
 } Producao;
 
+vector<Producao> buildProductions() {
+    vector<Producao> producoes;
+    producoes.push_back({ 0, {}});
+}
+
 int predictiveTable[24][23];
 int** buildPredictiveTable() {
     for (int i = 0; i < 24; i++) {
         for(int j = 0; j < 23; j++) {
-            predictiveTable[i][j] = 0;
+            predictiveTable[i][j] = -1;
         }
     }
-    int offset = 23;
+    int offset = 25;
     predictiveTable[INI-offset][FUNCTION] = 1;
     predictiveTable[BLOCO-offset][ABRE_CHAVES] = 2;
     predictiveTable[BLOCO_AUX-offset][TIPO] = 3;
