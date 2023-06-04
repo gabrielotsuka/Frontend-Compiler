@@ -51,97 +51,98 @@ vector<vector<int>> productions = {
 
 map<int, map<int, int>> predictiveTable;
 void populatePredictiveTable() {
-    int offset = 25;
-    predictiveTable[INI-offset][FUNCTION] = 1;
-    predictiveTable[BLOCO-offset][ABRE_CHAVES] = 2;
-    predictiveTable[BLOCO_AUX-offset][TIPO] = 3;
-    predictiveTable[BLOCO_AUX-offset][ID] = 4;
-    predictiveTable[BLOCO_AUX-offset][SE] = 4;
-    predictiveTable[BLOCO_AUX-offset][ENQUANTO] = 4;
-    predictiveTable[BLOCO_AUX-offset][REPITA] = 4;
-    predictiveTable[DECL_VARS-offset][TIPO] = 5;
-    predictiveTable[DECL_VARS_FAT-offset][TIPO] = 6;
-    predictiveTable[DECL_VARS_FAT-offset][ID] = 7;
-    predictiveTable[DECL_VARS_FAT-offset][SE] = 7;
-    predictiveTable[DECL_VARS_FAT-offset][ENQUANTO] = 7;
-    predictiveTable[DECL_VARS_FAT-offset][REPITA] = 7;
-    predictiveTable[DECL_VAR-offset][TIPO] = 8;
-    predictiveTable[LISTA_ID-offset][ID] = 9;
-    predictiveTable[LISTA_ID_FAT-offset][VIRGULA] = 10;
-    predictiveTable[LISTA_ID_FAT-offset][PONTO_VIRGULA] = 11;
-    predictiveTable[CMDS-offset][ID] = 12;
-    predictiveTable[CMDS-offset][SE] = 12;
-    predictiveTable[CMDS-offset][ENQUANTO] = 12;
-    predictiveTable[CMDS-offset][REPITA] = 12;
-    predictiveTable[CMDS_FAT-offset][ID] = 13;
-    predictiveTable[CMDS_FAT-offset][SE] = 13;
-    predictiveTable[CMDS_FAT-offset][ENQUANTO] = 13;
-    predictiveTable[CMDS_FAT-offset][REPITA] = 13;
-    predictiveTable[CMDS_FAT-offset][FECHA_CHAVES] = 14;
-    predictiveTable[CMD-offset][ID] = 15;
-    predictiveTable[CMD-offset][SE] = 16;
-    predictiveTable[CMD-offset][ENQUANTO] = 17;
-    predictiveTable[CMD-offset][REPITA] = 17;
-    predictiveTable[CMD_ATRIB-offset][ID] = 18;
-    predictiveTable[ARIT3-offset][ID] = 19;
-    predictiveTable[ARIT3-offset][CONST_INT] = 19;
-    predictiveTable[ARIT3-offset][CONST_CHAR] = 19;
-    predictiveTable[ARIT3-offset][CONST_FLOAT] = 19;
-    predictiveTable[ARIT3-offset][ABRE_PARENTESES] = 19;
-    predictiveTable[ARIT3_-offset][OP_ARIT_PREC3] = 20;
-    predictiveTable[ARIT3_-offset][RELOP] = 21;
-    predictiveTable[ARIT3_-offset][PONTO_VIRGULA] = 21;
-    predictiveTable[ARIT3_-offset][FECHA_PARENTESES] = 21;
-    predictiveTable[ARIT2-offset][ID] = 22;
-    predictiveTable[ARIT2-offset][CONST_INT] = 22;
-    predictiveTable[ARIT2-offset][CONST_CHAR] = 22;
-    predictiveTable[ARIT2-offset][CONST_FLOAT] = 22;
-    predictiveTable[ARIT2-offset][ABRE_PARENTESES] = 22;
-    predictiveTable[ARIT2_-offset][OP_ARIT_PREC3] = 24;
-    predictiveTable[ARIT2_-offset][OP_ARIT_PREC2] = 23;
-    predictiveTable[ARIT2_-offset][RELOP] = 24;
-    predictiveTable[ARIT2_-offset][PONTO_VIRGULA] = 24;
-    predictiveTable[ARIT2_-offset][FECHA_PARENTESES] = 24;
-    predictiveTable[ARIT1-offset][ID] = 25;
-    predictiveTable[ARIT1-offset][CONST_INT] = 25;
-    predictiveTable[ARIT1-offset][CONST_CHAR] = 25;
-    predictiveTable[ARIT1-offset][CONST_FLOAT] = 25;
-    predictiveTable[ARIT1-offset][ABRE_PARENTESES] = 25;
-    predictiveTable[ARIT1_-offset][OP_ARIT_PREC3] = 27;
-    predictiveTable[ARIT1_-offset][OP_ARIT_PREC2] = 27;
-    predictiveTable[ARIT1_-offset][OP_ARIT_PREC1] = 26;
-    predictiveTable[ARIT1_-offset][RELOP] = 27;
-    predictiveTable[ARIT1_-offset][PONTO_VIRGULA] = 27;
-    predictiveTable[ARIT1_-offset][FECHA_PARENTESES] = 27;
-    predictiveTable[ARIT_FATOR-offset][ID] = 28;
-    predictiveTable[ARIT_FATOR-offset][CONST_INT] = 29;
-    predictiveTable[ARIT_FATOR-offset][CONST_CHAR] = 30;
-    predictiveTable[ARIT_FATOR-offset][CONST_FLOAT] = 40;
-    predictiveTable[ARIT_FATOR-offset][ABRE_PARENTESES] = 31;
-    predictiveTable[CMD_COND-offset][SE] = 32;
-    predictiveTable[COND-offset][ID] = 33;
-    predictiveTable[COND-offset][CONST_INT] = 33;
-    predictiveTable[COND-offset][CONST_CHAR] = 33;
-    predictiveTable[COND-offset][CONST_FLOAT] = 33;
-    predictiveTable[COND-offset][ABRE_PARENTESES] = 33;
-    predictiveTable[CMD_BLOCO-offset][ABRE_CHAVES] = 35;
-    predictiveTable[CMD_BLOCO-offset][ID] = 34;
-    predictiveTable[CMD_BLOCO-offset][SE] = 34;
-    predictiveTable[CMD_BLOCO-offset][ENQUANTO] = 34;
-    predictiveTable[CMD_BLOCO-offset][REPITA] = 34;
-    predictiveTable[SENAO_FAT-offset][ABRE_CHAVES] = 37;
-    predictiveTable[SENAO_FAT-offset][ID] = 37;
-    predictiveTable[SENAO_FAT-offset][SE] = 37;
-    predictiveTable[SENAO_FAT-offset][ENQUANTO] = 37;
-    predictiveTable[SENAO_FAT-offset][REPITA] = 37;
-    predictiveTable[SENAO_FAT-offset][SENAO] = 36;
-    predictiveTable[SENAO_FAT-offset][ATE] = 37;
-    predictiveTable[CMD_REP-offset][ENQUANTO] = 38;
-    predictiveTable[CMD_REP-offset][REPITA] = 39;
+    predictiveTable[INI][FUNCTION] = 0;
+    predictiveTable[BLOCO][ABRE_CHAVES] = 1;
+    predictiveTable[BLOCO_AUX][TIPO] = 2;
+    predictiveTable[BLOCO_AUX][ID] = 3;
+    predictiveTable[BLOCO_AUX][SE] = 3;
+    predictiveTable[BLOCO_AUX][ENQUANTO] = 3;
+    predictiveTable[BLOCO_AUX][REPITA] = 3;
+    predictiveTable[DECL_VARS][TIPO] = 4;
+    predictiveTable[DECL_VARS_FAT][TIPO] = 5;
+    predictiveTable[DECL_VARS_FAT][ID] = 6;
+    predictiveTable[DECL_VARS_FAT][SE] = 6;
+    predictiveTable[DECL_VARS_FAT][ENQUANTO] = 6;
+    predictiveTable[DECL_VARS_FAT][REPITA] = 6;
+    predictiveTable[DECL_VAR][TIPO] = 7;
+    predictiveTable[LISTA_ID][ID] = 8;
+    predictiveTable[LISTA_ID_FAT][VIRGULA] = 9;
+    predictiveTable[LISTA_ID_FAT][PONTO_VIRGULA] = 10;
+    predictiveTable[CMDS][ID] = 11;
+    predictiveTable[CMDS][SE] = 11;
+    predictiveTable[CMDS][ENQUANTO] = 11;
+    predictiveTable[CMDS][REPITA] = 11;
+    predictiveTable[CMDS_FAT][ID] = 12;
+    predictiveTable[CMDS_FAT][SE] = 12;
+    predictiveTable[CMDS_FAT][ENQUANTO] = 12;
+    predictiveTable[CMDS_FAT][REPITA] = 12;
+    predictiveTable[CMDS_FAT][FECHA_CHAVES] = 13;
+    predictiveTable[CMD][ID] = 14;
+    predictiveTable[CMD][SE] = 15;
+    predictiveTable[CMD][ENQUANTO] = 16;
+    predictiveTable[CMD][REPITA] = 16;
+    predictiveTable[CMD_ATRIB][ID] = 17;
+    predictiveTable[ARIT3][ID] = 18;
+    predictiveTable[ARIT3][CONST_INT] = 18;
+    predictiveTable[ARIT3][CONST_CHAR] = 18;
+    predictiveTable[ARIT3][CONST_FLOAT] = 18;
+    predictiveTable[ARIT3][ABRE_PARENTESES] = 18;
+    predictiveTable[ARIT3_][OP_ARIT_PREC3] = 19;
+    predictiveTable[ARIT3_][RELOP] = 20;
+    predictiveTable[ARIT3_][PONTO_VIRGULA] = 20;
+    predictiveTable[ARIT3_][FECHA_PARENTESES] = 20;
+    predictiveTable[ARIT2][ID] = 21;
+    predictiveTable[ARIT2][CONST_INT] = 21;
+    predictiveTable[ARIT2][CONST_CHAR] = 21;
+    predictiveTable[ARIT2][CONST_FLOAT] = 21;
+    predictiveTable[ARIT2][ABRE_PARENTESES] = 21;
+    predictiveTable[ARIT2_][OP_ARIT_PREC3] = 23;
+    predictiveTable[ARIT2_][OP_ARIT_PREC2] = 22;
+    predictiveTable[ARIT2_][RELOP] = 23;
+    predictiveTable[ARIT2_][PONTO_VIRGULA] = 23;
+    predictiveTable[ARIT2_][FECHA_PARENTESES] = 23;
+    predictiveTable[ARIT1][ID] = 24;
+    predictiveTable[ARIT1][CONST_INT] = 24;
+    predictiveTable[ARIT1][CONST_CHAR] = 24;
+    predictiveTable[ARIT1][CONST_FLOAT] = 24;
+    predictiveTable[ARIT1][ABRE_PARENTESES] = 24;
+    predictiveTable[ARIT1_][OP_ARIT_PREC3] = 26;
+    predictiveTable[ARIT1_][OP_ARIT_PREC2] = 26;
+    predictiveTable[ARIT1_][OP_ARIT_PREC1] = 25;
+    predictiveTable[ARIT1_][RELOP] = 26;
+    predictiveTable[ARIT1_][PONTO_VIRGULA] = 26;
+    predictiveTable[ARIT1_][FECHA_PARENTESES] = 26;
+    predictiveTable[ARIT_FATOR][ID] = 27;
+    predictiveTable[ARIT_FATOR][CONST_INT] = 28;
+    predictiveTable[ARIT_FATOR][CONST_CHAR] = 29;
+    predictiveTable[ARIT_FATOR][CONST_FLOAT] = 30;
+    predictiveTable[ARIT_FATOR][ABRE_PARENTESES] = 31;
+    predictiveTable[CMD_COND][SE] = 32;
+    predictiveTable[COND][ID] = 33;
+    predictiveTable[COND][CONST_INT] = 33;
+    predictiveTable[COND][CONST_CHAR] = 33;
+    predictiveTable[COND][CONST_FLOAT] = 33;
+    predictiveTable[COND][ABRE_PARENTESES] = 33;
+    predictiveTable[CMD_BLOCO][ABRE_CHAVES] = 35;
+    predictiveTable[CMD_BLOCO][ID] = 34;
+    predictiveTable[CMD_BLOCO][SE] = 34;
+    predictiveTable[CMD_BLOCO][ENQUANTO] = 34;
+    predictiveTable[CMD_BLOCO][REPITA] = 34;
+    predictiveTable[SENAO_FAT][ABRE_CHAVES] = 37;
+    predictiveTable[SENAO_FAT][ID] = 37;
+    predictiveTable[SENAO_FAT][SE] = 37;
+    predictiveTable[SENAO_FAT][ENQUANTO] = 37;
+    predictiveTable[SENAO_FAT][REPITA] = 37;
+    predictiveTable[SENAO_FAT][SENAO] = 36;
+    predictiveTable[SENAO_FAT][ATE] = 37;
+    predictiveTable[CMD_REP][ENQUANTO] = 38;
+    predictiveTable[CMD_REP][REPITA] = 39;
 }
 
-void throwError(Token token) {
+void throwError(Token token, int expected) {
     cout << "Erro sintático na linha " << token.line << " e coluna " << token.column << endl;
+    cout << "Esperado: " << expected << endl;
+    cout << "Encontrado: " << token.type << endl;
 }
 
 int main() {
@@ -153,9 +154,10 @@ int main() {
 
     while(!stack.empty()) {
         int currentSymbol = stack.top();
-        if(currentSymbol < 23) {
+        cout<< "token lido"<< currentToken.type<<"\n"<<"topo da pilha" << currentSymbol<<endl << endl;
+        if(currentSymbol < 25) {
             if (currentSymbol != currentToken.type) {
-                throwError(currentToken);
+                throwError(currentToken, currentSymbol);
                 finalize_lexic();
                 return 1;
             }
@@ -163,26 +165,29 @@ int main() {
             currentToken = getToken();
         } else {
             int productionIdx = predictiveTable[currentSymbol][currentToken.type];
+            cout << productionIdx << endl;
             if (productionIdx == -1) {
-                throwError(currentToken);
+                throwError(currentToken, currentSymbol);
                 finalize_lexic();
                 return 1;
             }
             // Trata produção // Constrói subárvore X ou executa ações semânticas
             stack.pop();
             vector<int> productionBody = productions[productionIdx];
-            for (int i = productionBody.size()-1; i>=0; i--) {
-                stack.push(productionBody[i]);
+            if (productionBody[0] != EPSILON) {
+                for (int i = productionBody.size()-1; i>=0; i--) {
+                    stack.push(productionBody[i]);
+                }    
             }
         }
     }
     
-    if (currentToken.type != FINAL_TOKEN) {
-        throwError(currentToken);
+    if (currentToken.type != NOTOKEN) {
+        throwError(currentToken, -1);
         finalize_lexic();
         return 1;
     } else {
-
+        cout << "aceita" << endl;
     }
 
     finalize_lexic();

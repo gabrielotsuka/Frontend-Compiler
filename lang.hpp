@@ -56,7 +56,6 @@ using namespace std;
 #define SENAO_FAT 47
 #define CMD_REP 48
 #define EPSILON 49
-#define FINAL_TOKEN 50
 
 typedef struct t{
     int type;
