@@ -67,10 +67,10 @@ typedef struct {
     int coluna;
 } Token;
 
-typedef struct {
+typedef struct Node{
     int tokenValue;
-    ASTNode* child;
-    ASTNode* brother;
+    struct Node* child;
+    struct Node* brother;
 } ASTNode;
 
 vector<vector<int>> productions = {
@@ -214,10 +214,6 @@ ASTNode *newASTNode(int tokenValue) {
     newNode->child = NULL; 
 
     return newNode;
-}
-
-ASTNode *handleProduction() {
-    
 }
 
 int main() {
