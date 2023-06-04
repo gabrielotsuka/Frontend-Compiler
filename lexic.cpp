@@ -51,12 +51,15 @@ void treatLookAhead() {
 
 Token getToken() {
     int state = 0;
-    int cnt = 14;
     bool shouldRead = true;
-    while (cnt--) {
-        if(shouldRead) getNextChar();
+    string value;
+    while (1) {
+        if(shouldRead){
+            getNextChar();
+            value.push_back(curChar.value);
+        }
         char c = curChar.value;
-        cout << c << ' ' << state << endl;
+        // cout << c << ' ' << state << endl;
         shouldRead = true;
         switch (state)
         {
@@ -401,8 +404,523 @@ Token getToken() {
                     treatLookAhead();
                     return tok;
                 }
+                break;
             case 33:
-                
+                return Token(RELOP, "<=", curChar.line, curChar.column);
+            case 34:
+                return Token(RELOP, "<>", curChar.line, curChar.column);
+            case 35:
+            {
+                Token tok = Token(RELOP, "<", curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 36:
+                return Token(RELOP, "==", curChar.line, curChar.column);
+            case 37:
+            {
+                Token tok = Token(IGUAL, emptyAttribute, curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 38:
+                return Token(RELOP, ">=", curChar.line, curChar.column);
+            case 39:
+            {
+                Token tok = Token(RELOP, ">", curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 40:
+                if(c == 'q') {
+                    state = 55;
+                }
+                else if(c == 't') {
+                    state = 56;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 41:
+                if(c == 'p') {
+                    state = 57;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 42:
+                if(c == 'e') {
+                    state = 58;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 43:
+                if(c >= '0' && c <= '9') {
+                    state = 59;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 44:
+                if(c == '+' || c == '-') {
+                    state = 60;
+                }
+                else if(c >= '0' && c <= '9') {
+                    state = 61;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 45:
+            {
+                value.pop_back();
+                Token tok = Token(CONST_INT, value, curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 46:
+            {
+                // WS is not returned
+                treatLookAhead();
+                value.clear();
+                state = 0;
+                break;
+            }
+            case 47:
+                if(c == 't') {
+                    state = 62;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 48:
+                if(c == 'a') {
+                    state = 63;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 49:
+            {
+                string symbolTablePos = "-1"; //Should be changed after we create the symbol table structure
+                Token tok = Token(ID, symbolTablePos, curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 50:
+                if(c == 'c') {
+                    state = 64;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 51:
+                if(c == 'a') {
+                    state = 65;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 52:
+                if(c == 'a') {
+                    state = 66;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 53:
+                if(c == '/') {
+                    state = 67;
+                    shouldRead = false;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 54:
+                if(c == 'a') {
+                    state = 68;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error;
+                }
+                break;
+            case 55:
+                if(c == 'u') {
+                    state = 69;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 56:
+                if(c == 'a') {
+                    state = 70;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 57:
+                if(c == 'i') {
+                    state = 71;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error;
+                }
+                break;
+            case 58:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(ATE, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 59:
+                if(c == 'E') {
+                    state = 44;
+                }
+                else if(c >= '0' && c <= '9') {
+                    state = 59;
+                }
+                else {
+                    state = 72;
+                    shouldRead = false;
+                }
+                break;
+            case 60:
+                if(c >= '0' && c <= '9') {
+                    state = 61;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 61:
+                if(c >= '0' && c <= '9') {
+                    state = 61;
+                }
+                else {
+                    state = 73;
+                    shouldRead = false;
+                }
+                break;
+            case 62:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(TIPO, "int", curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 63:
+                if(c == 'r') {
+                    state = 74;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 64:
+                if(c == 't') {
+                    state = 75;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 65:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(FACA, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 66:
+                if(c == 't') {
+                    state = 76;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 67:
+            {
+                // texto_comentario is not returned
+                treatLookAhead();
+                value.clear();
+                state = 0;
+                break;
+            }
+            case 68:
+                if(c == 'o') {
+                    state = 77;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 69:
+                if(c == 'a') {
+                    state = 78;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 70:
+                if(c == 'o') {
+                    state = 80;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 71:
+                if(c == 't') {
+                    state = 79;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 72:
+            {
+                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 73:
+            {
+                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
+                treatLookAhead();
+                return tok;
+            }
+            case 74:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(TIPO, "char", curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 75:
+                if(c == 'i') {
+                    state = 81;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 76:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(TIPO, "float", curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 77:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(SENAO, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 78:
+                if(c == 'n') {
+                    state = 82;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 79:
+                if(c == 'a') {
+                    state = 83;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 80:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(ENTAO, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 81:
+                if(c == 'o') {
+                    state = 84;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 82:
+                if(c == 't') {
+                    state = 85;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 83:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(REPITA, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 84:
+                if(c == 'n') {
+                    state = 86;
+                }
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 85:
+                if(c == 'o') {
+                    state = 87;
+                } 
+                else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    // error
+                }
+                break;
+            case 86:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(FUNCTION, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 87:
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') {
+                    state = 26;
+                }
+                else {
+                    Token tok = Token(ENQUANTO, emptyAttribute, curChar.line, curChar.column);
+                    treatLookAhead();
+                    return tok;
+                }
+                break;
+            case 88:
+                return Token(CONST_CHAR, value, curChar.line, curChar.column);
             default:
                 // error
                 break;
