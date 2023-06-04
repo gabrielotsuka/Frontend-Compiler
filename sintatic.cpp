@@ -1,122 +1,56 @@
 #include<stack>
 #include<vector>
+#include<map>
+#include<iostream>
+#include"lang.hpp"
 
 using namespace std;
 
-//Terminal
-#define FUNCTION 0	
-#define ABRE_CHAVES 1	
-#define TIPO 2	
-#define ID 3	
-#define SE 4	
-#define ENQUANTO 5	
-#define REPITA 6	
-#define VIRGULA 7	
-#define CONST_INT 8	
-#define CONST_CHAR 9	
-#define CONST_FLOAT 10
-#define ABRE_PARENTESES 11
-#define OP_ARIT_PREC3 12
-#define OP_ARIT_PREC2 13
-#define OP_ARIT_PREC1 14
-#define SENAO 15
-#define ATE 16
-#define FECHA_CHAVES 17
-#define PONTO_VIRGULA 18
-#define FECHA_PARENTESES 19
-#define RELOP 20
-#define FACA 21
-#define ENTAO 22
-#define DOIS_PONTOS 23
-#define IGUAL 24
-
-//Not terminal
-#define INI 25 
-#define BLOCO 26 
-#define BLOCO_AUX 27 
-#define DECL_VARS 28 
-#define DECL_VARS_FAT 29 
-#define DECL_VAR 30 
-#define LISTA_ID 31 
-#define LISTA_ID_FAT 32 
-#define CMDS 33 
-#define CMDS_FAT 34 
-#define CMD 35 
-#define CMD_ATRIB 36 
-#define ARIT3 37 
-#define ARIT3_ 38 
-#define ARIT2 39 
-#define ARIT2_ 40 
-#define ARIT1 41 
-#define ARIT1_ 42 
-#define ARIT_FATOR 43 
-#define CMD_COND 44 
-#define COND 45 
-#define CMD_BLOCO 46 
-#define SENAO_FAT 47
-#define CMD_REP 48
-#define EPSILON 49
-
-typedef struct {
-    int tipo;
-    int valor;
-} Token;
-
-typedef struct {
-    int cabeça;
-    vector<int> Corpo; 
-} Producao;
-
-vector<Producao> producoes = {
-    {0, {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO}},
-    {1, {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES}},
-    {2, {DECL_VARS, CMD}},
-    {3, {CMDS}},
-    {4, {DECL_VAR, DECL_VARS_FAT}},
-    {5, {DECL_VARS}},
-    {6, {EPSILON}},
-    {7, {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA}},
-    {8, {ID, LISTA_ID_FAT}},
-    {9, {VIRGULA, LISTA_ID}},
-    {10, {EPSILON}},
-    {11, {CMD, CMDS_FAT}},
-    {12, {CMDS}},
-    {13, {EPSILON}},
-    {14, {CMD_ATRIB}},
-    {15, {CMD_COND}},
-    {16, {CMD_REP}},
-    {17, {ID, IGUAL, ARIT3, PONTO_VIRGULA}},
-    {18, {ARIT2, ARIT3_}},
-    {19, {OP_ARIT_PREC3, ARIT2, ARIT3_}},
-    {20, {EPSILON}},
-    {21, {ARIT1, ARIT2_}},
-    {22, {OP_ARIT_PREC2, ARIT1, ARIT2_}},
-    {23, {EPSILON}},
-    {24, {ARIT_FATOR, ARIT1_}},
-    {25, {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_}},
-    {26, {EPSILON}},
-    {27, {ID}},
-    {28, {CONST_INT}},
-    {29, {CONST_CHAR}},
-    {30, {CONST_FLOAT}},
-    {31, {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES}},
-    {32, {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT}},
-    {33, {ARIT3, RELOP, ARIT3}},
-    {34, {CMD}},
-    {35, {BLOCO}},
-    {36, {SENAO, CMD_BLOCO}},
-    {37, {EPSILON}},
-    {38, {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO}},
-    {39, {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES}},
+vector<vector<int>> productions = {
+    {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
+    {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES},
+    {DECL_VARS, CMD},
+    {CMDS},
+    {DECL_VAR, DECL_VARS_FAT},
+    {DECL_VARS},
+    {EPSILON},
+    {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA},
+    {ID, LISTA_ID_FAT},
+    {VIRGULA, LISTA_ID},
+    {EPSILON},
+    {CMD, CMDS_FAT},
+    {CMDS},
+    {EPSILON},
+    {CMD_ATRIB},
+    {CMD_COND},
+    {CMD_REP},
+    {ID, IGUAL, ARIT3, PONTO_VIRGULA},
+    {ARIT2, ARIT3_},
+    {OP_ARIT_PREC3, ARIT2, ARIT3_},
+    {EPSILON},
+    {ARIT1, ARIT2_},
+    {OP_ARIT_PREC2, ARIT1, ARIT2_},
+    {EPSILON},
+    {ARIT_FATOR, ARIT1_},
+    {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_},
+    {EPSILON},
+    {ID},
+    {CONST_INT},
+    {CONST_CHAR},
+    {CONST_FLOAT},
+    {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES},
+    {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT},
+    {ARIT3, RELOP, ARIT3},
+    {CMD},
+    {BLOCO},
+    {SENAO, CMD_BLOCO},
+    {EPSILON},
+    {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO},
+    {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES},
 };
 
-int predictiveTable[24][23];
-int** buildPredictiveTable() {
-    for (int i = 0; i < 24; i++) {
-        for(int j = 0; j < 23; j++) {
-            predictiveTable[i][j] = -1;
-        }
-    }
+map<int, map<int, int>> predictiveTable;
+void populatePredictiveTable() {
     int offset = 25;
     predictiveTable[INI-offset][FUNCTION] = 1;
     predictiveTable[BLOCO-offset][ABRE_CHAVES] = 2;
@@ -206,24 +140,52 @@ int** buildPredictiveTable() {
     predictiveTable[CMD_REP-offset][REPITA] = 39;
 }
 
+void throwError(Token token) {
+    cout << "Erro sintático na linha " << token.line << " e coluna " << token.column << endl;
+}
 
 int main() {
+    populatePredictiveTable();
+    initialize_lexic();
     stack<int> stack;
     stack.push(INI);
-    Token proxToken;//lex();
+    Token currentToken = getToken();
 
     while(!stack.empty()) {
-        int expectedSymbol = stack.top();
-        if(expectedSymbol < 23) {
-            if (expectedSymbol == proxToken.tipo) {
-                stack.pop();
-                proxToken;//lex();
-            } else {
-                // throw error
+        int currentSymbol = stack.top();
+        if(currentSymbol < 23) {
+            if (currentSymbol != currentToken.type) {
+                throwError(currentToken);
+                finalize_lexic();
+                return 1;
             }
+            stack.pop();
+            currentToken = getToken();
         } else {
-            // DERIVA
+            int productionIdx = predictiveTable[currentSymbol][currentToken.type];
+            if (productionIdx == -1) {
+                throwError(currentToken);
+                finalize_lexic();
+                return 1;
+            }
+            // Trata produção // Constrói subárvore X ou executa ações semânticas
+            stack.pop();
+            vector<int> productionBody = productions[productionIdx];
+            for (int i = productionBody.size()-1; i>=0; i--) {
+                stack.push(productionBody[i]);
+            }
         }
     }
+    
+    if (currentToken.type != FINAL_TOKEN) {
+        throwError(currentToken);
+        finalize_lexic();
+        return 1;
+    } else {
+
+    }
+
+    finalize_lexic();
+
     return 0;
 }

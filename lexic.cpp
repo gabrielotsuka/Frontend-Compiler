@@ -2,6 +2,8 @@
 #include "lang.hpp"
 using namespace std;
 
+string emptyAttribute = "N/A";
+
 typedef struct c{
     char value;
     int line, column;
@@ -933,15 +935,4 @@ Token getToken() {
 
 void finalize_lexic() {
     fclose(file);
-}
-
-int main() {
-    initialize_lexic();
-    int cnt = 10;
-    while (1) {
-        Token tok = getToken();
-        if(tok.type == NOTOKEN) break;
-        cout << tok.type << ' ' << tok.value << ' ' << tok.line << ' ' << tok.column << endl;
-    }
-    finalize_lexic();
 }
