@@ -1,5 +1,7 @@
 #include<stack>
 #include<vector>
+#include<map>
+#include<iostream>
 
 using namespace std;
 
@@ -56,67 +58,58 @@ using namespace std;
 #define SENAO_FAT 47
 #define CMD_REP 48
 #define EPSILON 49
+#define FINAL_TOKEN 50
 
 typedef struct {
     int tipo;
     int valor;
 } Token;
 
-typedef struct {
-    int cabeça;
-    vector<int> Corpo; 
-} Producao;
-
-vector<Producao> producoes = {
-    {0, {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO}},
-    {1, {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES}},
-    {2, {DECL_VARS, CMD}},
-    {3, {CMDS}},
-    {4, {DECL_VAR, DECL_VARS_FAT}},
-    {5, {DECL_VARS}},
-    {6, {EPSILON}},
-    {7, {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA}},
-    {8, {ID, LISTA_ID_FAT}},
-    {9, {VIRGULA, LISTA_ID}},
-    {10, {EPSILON}},
-    {11, {CMD, CMDS_FAT}},
-    {12, {CMDS}},
-    {13, {EPSILON}},
-    {14, {CMD_ATRIB}},
-    {15, {CMD_COND}},
-    {16, {CMD_REP}},
-    {17, {ID, IGUAL, ARIT3, PONTO_VIRGULA}},
-    {18, {ARIT2, ARIT3_}},
-    {19, {OP_ARIT_PREC3, ARIT2, ARIT3_}},
-    {20, {EPSILON}},
-    {21, {ARIT1, ARIT2_}},
-    {22, {OP_ARIT_PREC2, ARIT1, ARIT2_}},
-    {23, {EPSILON}},
-    {24, {ARIT_FATOR, ARIT1_}},
-    {25, {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_}},
-    {26, {EPSILON}},
-    {27, {ID}},
-    {28, {CONST_INT}},
-    {29, {CONST_CHAR}},
-    {30, {CONST_FLOAT}},
-    {31, {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES}},
-    {32, {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT}},
-    {33, {ARIT3, RELOP, ARIT3}},
-    {34, {CMD}},
-    {35, {BLOCO}},
-    {36, {SENAO, CMD_BLOCO}},
-    {37, {EPSILON}},
-    {38, {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO}},
-    {39, {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES}},
+vector<vector<int>> productions = {
+    {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
+    {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES},
+    {DECL_VARS, CMD},
+    {CMDS},
+    {DECL_VAR, DECL_VARS_FAT},
+    {DECL_VARS},
+    {EPSILON},
+    {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA},
+    {ID, LISTA_ID_FAT},
+    {VIRGULA, LISTA_ID},
+    {EPSILON},
+    {CMD, CMDS_FAT},
+    {CMDS},
+    {EPSILON},
+    {CMD_ATRIB},
+    {CMD_COND},
+    {CMD_REP},
+    {ID, IGUAL, ARIT3, PONTO_VIRGULA},
+    {ARIT2, ARIT3_},
+    {OP_ARIT_PREC3, ARIT2, ARIT3_},
+    {EPSILON},
+    {ARIT1, ARIT2_},
+    {OP_ARIT_PREC2, ARIT1, ARIT2_},
+    {EPSILON},
+    {ARIT_FATOR, ARIT1_},
+    {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_},
+    {EPSILON},
+    {ID},
+    {CONST_INT},
+    {CONST_CHAR},
+    {CONST_FLOAT},
+    {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES},
+    {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT},
+    {ARIT3, RELOP, ARIT3},
+    {CMD},
+    {BLOCO},
+    {SENAO, CMD_BLOCO},
+    {EPSILON},
+    {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO},
+    {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES},
 };
 
-int predictiveTable[24][23];
-int** buildPredictiveTable() {
-    for (int i = 0; i < 24; i++) {
-        for(int j = 0; j < 23; j++) {
-            predictiveTable[i][j] = -1;
-        }
-    }
+map<int, map<int, int>> predictiveTable;
+void populatePredictiveTable() {
     int offset = 25;
     predictiveTable[INI-offset][FUNCTION] = 1;
     predictiveTable[BLOCO-offset][ABRE_CHAVES] = 2;
@@ -206,24 +199,41 @@ int** buildPredictiveTable() {
     predictiveTable[CMD_REP-offset][REPITA] = 39;
 }
 
-
 int main() {
+    populatePredictiveTable();
     stack<int> stack;
     stack.push(INI);
-    Token proxToken;//lex();
+    Token currentToken;//lex();
 
     while(!stack.empty()) {
-        int expectedSymbol = stack.top();
-        if(expectedSymbol < 23) {
-            if (expectedSymbol == proxToken.tipo) {
-                stack.pop();
-                proxToken;//lex();
-            } else {
+        int currentSymbol = stack.top();
+        if(currentSymbol < 23) {
+            if (currentSymbol != currentToken.tipo) {
                 // throw error
+                return 1;
             }
+            stack.pop();
+            // currentToken;//lex();
         } else {
-            // DERIVA
+            int productionIdx = predictiveTable[currentSymbol][currentToken.tipo];
+            if (productionIdx == -1) {
+                //throw error
+                return 1;
+            }
+            // Trata produção // Constrói subárvore X ou executa ações semânticas
+            stack.pop();
+            vector<int> productionBody = productions[productionIdx];
+            for (int i = productionBody.size()-1; i>=0; i--) {
+                stack.push(productionBody[i]);
+            }
         }
+    }
+    
+    if (currentToken.tipo != FINAL_TOKEN) {
+        //throw error
+        return 1;
+    } else {
+
     }
     return 0;
 }
