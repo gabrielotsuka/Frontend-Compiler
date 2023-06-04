@@ -21,19 +21,18 @@ void initialize_lexic() {
     }
 }
 
-void getNextChar() {
+bool getNextChar() {
     while (feof(file) == 0 && curPos >= strlen(row)) {
         char* result = fgets(row, 250, file);
         curPos = 0;
         lineCounter++;
+        // cout << row << endl;
         if(!result) {
-            printf("Failed to read the next line\n");
-            exit(1);
+            return false;
         }
     }
     if(strlen(row) <= curPos) {
-        printf("The file has ended\n");
-        exit(0);
+        return false;
     }
     lastChar = curChar;
     if(curPos >= 0) {
@@ -42,6 +41,7 @@ void getNextChar() {
         curChar.column = curPos+1;
     }
     curPos++;
+    return true;
 }
 
 void treatLookAhead() {
@@ -55,11 +55,12 @@ Token getToken() {
     string value;
     while (1) {
         if(shouldRead){
-            getNextChar();
+            if(!getNextChar()) {
+                return Token(NOTOKEN, "N/A", -1, -1);
+            }
             value.push_back(curChar.value);
         }
         char c = curChar.value;
-        // cout << c << ' ' << state << endl;
         shouldRead = true;
         switch (state)
         {
@@ -154,7 +155,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    //error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 1:
@@ -171,7 +172,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    //error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 2: 
@@ -211,7 +212,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 14:
@@ -256,7 +257,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 18:
@@ -267,7 +268,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 19:
@@ -278,7 +279,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 20:
@@ -324,7 +325,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 25:
@@ -335,7 +336,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 26:
@@ -354,7 +355,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 28:
@@ -365,7 +366,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 29:
@@ -376,7 +377,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 30:
@@ -388,8 +389,8 @@ Token getToken() {
                 break;
             case 31:
             {
-                Token tok = Token(OP_ARIT_PREC2, "/", curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(OP_ARIT_PREC2, "/", curChar.line, curChar.column);
                 return tok;
             }
             case 32:
@@ -400,8 +401,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(SE, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(SE, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -411,24 +412,24 @@ Token getToken() {
                 return Token(RELOP, "<>", curChar.line, curChar.column);
             case 35:
             {
-                Token tok = Token(RELOP, "<", curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(RELOP, "<", curChar.line, curChar.column);
                 return tok;
             }
             case 36:
                 return Token(RELOP, "==", curChar.line, curChar.column);
             case 37:
             {
-                Token tok = Token(IGUAL, emptyAttribute, curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(IGUAL, emptyAttribute, curChar.line, curChar.column);
                 return tok;
             }
             case 38:
                 return Token(RELOP, ">=", curChar.line, curChar.column);
             case 39:
             {
-                Token tok = Token(RELOP, ">", curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(RELOP, ">", curChar.line, curChar.column);
                 return tok;
             }
             case 40:
@@ -442,7 +443,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 41:
@@ -453,7 +454,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 42:
@@ -464,7 +465,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 43:
@@ -472,7 +473,7 @@ Token getToken() {
                     state = 59;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 44:
@@ -483,14 +484,14 @@ Token getToken() {
                     state = 61;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 45:
             {
                 value.pop_back();
-                Token tok = Token(CONST_INT, value, curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(CONST_INT, value, curChar.line, curChar.column);
                 return tok;
             }
             case 46:
@@ -509,7 +510,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 48:
@@ -520,14 +521,14 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 49:
             {
                 string symbolTablePos = "-1"; //Should be changed after we create the symbol table structure
-                Token tok = Token(ID, symbolTablePos, curChar.line, curChar.column);
                 treatLookAhead();
+                Token tok = Token(ID, symbolTablePos, curChar.line, curChar.column);
                 return tok;
             }
             case 50:
@@ -538,7 +539,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 51:
@@ -549,7 +550,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 52:
@@ -560,7 +561,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 53:
@@ -569,7 +570,7 @@ Token getToken() {
                     shouldRead = false;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 54:
@@ -580,7 +581,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error;
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);;
                 }
                 break;
             case 55:
@@ -591,7 +592,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 56:
@@ -602,7 +603,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 57:
@@ -613,7 +614,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error;
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);;
                 }
                 break;
             case 58:
@@ -621,8 +622,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(ATE, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(ATE, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -643,7 +644,7 @@ Token getToken() {
                     state = 61;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 61:
@@ -660,8 +661,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(TIPO, "int", curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(TIPO, "int", curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -673,7 +674,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 64:
@@ -684,7 +685,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 65:
@@ -692,8 +693,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(FACA, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(FACA, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -705,13 +706,12 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 67:
             {
                 // texto_comentario is not returned
-                treatLookAhead();
                 value.clear();
                 state = 0;
                 break;
@@ -724,7 +724,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 69:
@@ -735,7 +735,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 70:
@@ -746,7 +746,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 71:
@@ -757,19 +757,21 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 72:
             {
-                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
+                value.pop_back();
                 treatLookAhead();
+                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
                 return tok;
             }
             case 73:
             {
-                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
+                value.pop_back();
                 treatLookAhead();
+                Token tok = Token(CONST_FLOAT, value, curChar.line, curChar.column);
                 return tok;
             }
             case 74:
@@ -777,8 +779,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(TIPO, "char", curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(TIPO, "char", curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -790,7 +792,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 76:
@@ -798,8 +800,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(TIPO, "float", curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(TIPO, "float", curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -808,8 +810,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(SENAO, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(SENAO, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -821,7 +823,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 79:
@@ -832,7 +834,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 80:
@@ -840,8 +842,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(ENTAO, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(ENTAO, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -853,7 +855,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 82:
@@ -864,7 +866,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 83:
@@ -872,8 +874,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(REPITA, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(REPITA, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -885,7 +887,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 85:
@@ -896,7 +898,7 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    // error
+                    return Token(ERROR, "N/A", curChar.line, curChar.column);
                 }
                 break;
             case 86:
@@ -904,8 +906,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(FUNCTION, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(FUNCTION, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
@@ -914,15 +916,15 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    Token tok = Token(ENQUANTO, emptyAttribute, curChar.line, curChar.column);
                     treatLookAhead();
+                    Token tok = Token(ENQUANTO, emptyAttribute, curChar.line, curChar.column);
                     return tok;
                 }
                 break;
             case 88:
                 return Token(CONST_CHAR, value, curChar.line, curChar.column);
             default:
-                // error
+                return Token(ERROR, "N/A", curChar.line, curChar.column);
                 break;
         }
     }
@@ -935,12 +937,11 @@ void finalize_lexic() {
 
 int main() {
     initialize_lexic();
-    int cnt = 4;
-    while (cnt--) {
+    int cnt = 10;
+    while (1) {
         Token tok = getToken();
+        if(tok.type == NOTOKEN) break;
         cout << tok.type << ' ' << tok.value << ' ' << tok.line << ' ' << tok.column << endl;
     }
     finalize_lexic();
-
-
 }

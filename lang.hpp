@@ -2,6 +2,8 @@
 using namespace std;
 
 //Terminal
+#define NOTOKEN -2
+#define ERROR -1
 #define FUNCTION 0	
 #define ABRE_CHAVES 1	
 #define TIPO 2	
