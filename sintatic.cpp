@@ -2,68 +2,9 @@
 #include<vector>
 #include<map>
 #include<iostream>
+#include"lang.hpp"
 
 using namespace std;
-
-//Terminal
-#define FUNCTION 0	
-#define ABRE_CHAVES 1	
-#define TIPO 2	
-#define ID 3	
-#define SE 4	
-#define ENQUANTO 5	
-#define REPITA 6	
-#define VIRGULA 7	
-#define CONST_INT 8	
-#define CONST_CHAR 9	
-#define CONST_FLOAT 10
-#define ABRE_PARENTESES 11
-#define OP_ARIT_PREC3 12
-#define OP_ARIT_PREC2 13
-#define OP_ARIT_PREC1 14
-#define SENAO 15
-#define ATE 16
-#define FECHA_CHAVES 17
-#define PONTO_VIRGULA 18
-#define FECHA_PARENTESES 19
-#define RELOP 20
-#define FACA 21
-#define ENTAO 22
-#define DOIS_PONTOS 23
-#define IGUAL 24
-
-//Not terminal
-#define INI 25 
-#define BLOCO 26 
-#define BLOCO_AUX 27 
-#define DECL_VARS 28 
-#define DECL_VARS_FAT 29 
-#define DECL_VAR 30 
-#define LISTA_ID 31 
-#define LISTA_ID_FAT 32 
-#define CMDS 33 
-#define CMDS_FAT 34 
-#define CMD 35 
-#define CMD_ATRIB 36 
-#define ARIT3 37 
-#define ARIT3_ 38 
-#define ARIT2 39 
-#define ARIT2_ 40 
-#define ARIT1 41 
-#define ARIT1_ 42 
-#define ARIT_FATOR 43 
-#define CMD_COND 44 
-#define COND 45 
-#define CMD_BLOCO 46 
-#define SENAO_FAT 47
-#define CMD_REP 48
-#define EPSILON 49
-#define FINAL_TOKEN 50
-
-typedef struct {
-    int tipo;
-    int valor;
-} Token;
 
 vector<vector<int>> productions = {
     {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
@@ -199,25 +140,32 @@ void populatePredictiveTable() {
     predictiveTable[CMD_REP-offset][REPITA] = 39;
 }
 
+void throwError(Token token) {
+    cout << "Erro sintático na linha " << token.line << " e coluna " << token.column << endl;
+}
+
 int main() {
     populatePredictiveTable();
+    initialize_lexic();
     stack<int> stack;
     stack.push(INI);
-    Token currentToken;//lex();
+    Token currentToken = getToken();
 
     while(!stack.empty()) {
         int currentSymbol = stack.top();
         if(currentSymbol < 23) {
-            if (currentSymbol != currentToken.tipo) {
-                // throw error
+            if (currentSymbol != currentToken.type) {
+                throwError(currentToken);
+                finalize_lexic();
                 return 1;
             }
             stack.pop();
-            // currentToken;//lex();
+            currentToken = getToken();
         } else {
-            int productionIdx = predictiveTable[currentSymbol][currentToken.tipo];
+            int productionIdx = predictiveTable[currentSymbol][currentToken.type];
             if (productionIdx == -1) {
-                //throw error
+                throwError(currentToken);
+                finalize_lexic();
                 return 1;
             }
             // Trata produção // Constrói subárvore X ou executa ações semânticas
@@ -229,11 +177,15 @@ int main() {
         }
     }
     
-    if (currentToken.tipo != FINAL_TOKEN) {
-        //throw error
+    if (currentToken.type != FINAL_TOKEN) {
+        throwError(currentToken);
+        finalize_lexic();
         return 1;
     } else {
 
     }
+
+    finalize_lexic();
+
     return 0;
 }
