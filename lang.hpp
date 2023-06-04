@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 //Terminal
 #define FUNCTION 0	
 #define ABRE_CHAVES 1	
@@ -25,16 +28,22 @@
 #define DOIS_PONTOS 23
 #define IGUAL 24
 
-char emptyAttribute[1] = {'-'};
+string emptyAttribute = "N/A";
 
 typedef struct t{
     int type;
-    char* value;
+    string value;
     int line;
     int column;
 
-    t(int _type, char* _value, int _line, int _column) {
+    t(int _type, string _value, int _line, int _column) {
         type = _type, value = _value, line = _line, column = _column;
     }
     t() {}
 } Token;
+
+Token getToken();
+
+void initialize_lexic();
+
+void finalize_lexic();
