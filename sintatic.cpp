@@ -62,8 +62,16 @@ using namespace std;
 
 typedef struct {
     int tipo;
-    int valor;
+    int atributo;
+    int linha;
+    int coluna;
 } Token;
+
+typedef struct {
+    int tokenValue;
+    ASTNode* child;
+    ASTNode* brother;
+} ASTNode;
 
 vector<vector<int>> productions = {
     {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
@@ -199,11 +207,30 @@ void populatePredictiveTable() {
     predictiveTable[CMD_REP-offset][REPITA] = 39;
 }
 
+ASTNode *newASTNode(int tokenValue) {
+    ASTNode *newNode = (ASTNode*)malloc(sizeof(ASTNode));
+    newNode->tokenValue = tokenValue;
+    newNode->brother = NULL;
+    newNode->child = NULL; 
+
+    return newNode;
+}
+
+ASTNode *handleProduction() {
+    
+}
+
 int main() {
+    
     populatePredictiveTable();
+    
     stack<int> stack;
     stack.push(INI);
+
     Token currentToken;//lex();
+
+    ASTNode* root = newASTNode(currentToken.tipo);
+    ASTNode* currentNode = root;
 
     while(!stack.empty()) {
         int currentSymbol = stack.top();
@@ -212,6 +239,7 @@ int main() {
                 // throw error
                 return 1;
             }
+            currentNode = currentNode->brother;
             stack.pop();
             // currentToken;//lex();
         } else {
@@ -220,12 +248,26 @@ int main() {
                 //throw error
                 return 1;
             }
-            // Trata produção // Constrói subárvore X ou executa ações semânticas
+            // Constrói subárvore X ou executa ações semânticas
             stack.pop();
             vector<int> productionBody = productions[productionIdx];
-            for (int i = productionBody.size()-1; i>=0; i--) {
-                stack.push(productionBody[i]);
+
+            if (productionBody[0] != EPSILON) {
+                currentNode->child = newASTNode(productionBody[0]);
+                ASTNode *leftMostBrother = currentNode->child;
+                currentNode = leftMostBrother;
+
+                for(int i=1; i<productionBody.size(); i++) {
+                    currentNode->brother = newASTNode(productionBody[i]);
+                    currentNode = currentNode->brother;
+                }
+                currentNode = leftMostBrother;
+
+                for (int i = productionBody.size()-1; i>=0; i--) {
+                    stack.push(productionBody[i]);
+                }
             }
+            
         }
     }
     
