@@ -9,7 +9,7 @@ using namespace std;
 vector<vector<int>> productions = {
     {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
     {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES},
-    {DECL_VARS, CMD},
+    {DECL_VARS, CMDS},
     {CMDS},
     {DECL_VAR, DECL_VARS_FAT},
     {DECL_VARS},

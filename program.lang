@@ -4,17 +4,5 @@ function teste() {
     int: a, b, c;
     char: d, e, f;
     float: g, h, i;
-    se(a > b) entao 
-        a = b;
-    se (d > e) entao {
-        int j;
-        repita 
-            d + e; 
-        ate (g == h)
-    } senao {
-        enquanto (i <> a) faca {
-            char k = 'o';
-            opa = opa;
-        }
-    }
+    a = b;
 }
