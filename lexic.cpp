@@ -28,7 +28,6 @@ bool getNextChar() {
         char* result = fgets(row, 250, file);
         curPos = 0;
         lineCounter++;
-        // cout << row << endl;
         if(!result) {
             return false;
         }
@@ -63,6 +62,7 @@ Token getToken() {
             value.push_back(curChar.value);
         }
         char c = curChar.value;
+        // cout << c << ' ' << state << endl;
         shouldRead = true;
         switch (state)
         {
@@ -157,7 +157,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 1:
@@ -174,7 +175,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 2: 
@@ -214,7 +216,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 14:
@@ -259,7 +262,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 18:
@@ -270,7 +274,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 19:
@@ -281,7 +286,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 20:
@@ -327,7 +333,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 25:
@@ -338,7 +345,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 26:
@@ -357,7 +365,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 28:
@@ -368,7 +377,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 29:
@@ -379,7 +389,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 30:
@@ -445,7 +456,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 41:
@@ -456,7 +468,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 42:
@@ -467,7 +480,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 43:
@@ -523,7 +537,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 49:
@@ -541,7 +556,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 51:
@@ -552,7 +568,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 52:
@@ -563,7 +580,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 53:
@@ -583,7 +601,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);;
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 55:
@@ -594,7 +613,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 56:
@@ -605,7 +625,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 57:
@@ -616,7 +637,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);;
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 58:
@@ -676,7 +698,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 64:
@@ -687,7 +710,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 65:
@@ -708,7 +732,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 67:
@@ -726,7 +751,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 69:
@@ -737,7 +763,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 70:
@@ -748,7 +775,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 71:
@@ -759,7 +787,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 72:
@@ -794,7 +823,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 76:
@@ -825,7 +855,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 79:
@@ -836,7 +867,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 80:
@@ -857,7 +889,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 82:
@@ -868,7 +901,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 83:
@@ -889,7 +923,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 85:
@@ -900,7 +935,8 @@ Token getToken() {
                     state = 26;
                 }
                 else {
-                    return Token(ERROR, "N/A", curChar.line, curChar.column);
+                    state = 49;
+                    shouldRead = false;
                 }
                 break;
             case 86:
