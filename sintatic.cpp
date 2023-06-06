@@ -7,46 +7,46 @@
 using namespace std;
 
 vector<vector<int>> productions = {
-    {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO},
-    {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES},
-    {DECL_VARS, CMDS},
-    {CMDS},
-    {DECL_VAR, DECL_VARS_FAT},
-    {DECL_VARS},
-    {EPSILON},
-    {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA},
-    {ID, LISTA_ID_FAT},
-    {VIRGULA, LISTA_ID},
-    {EPSILON},
-    {CMD, CMDS_FAT},
-    {CMDS},
-    {EPSILON},
-    {CMD_ATRIB},
-    {CMD_COND},
-    {CMD_REP},
-    {ID, IGUAL, ARIT3, PONTO_VIRGULA},
-    {ARIT2, ARIT3_},
-    {OP_ARIT_PREC3, ARIT2, ARIT3_},
-    {EPSILON},
-    {ARIT1, ARIT2_},
-    {OP_ARIT_PREC2, ARIT1, ARIT2_},
-    {EPSILON},
-    {ARIT_FATOR, ARIT1_},
-    {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_},
-    {EPSILON},
-    {ID},
-    {CONST_INT},
-    {CONST_CHAR},
-    {CONST_FLOAT},
-    {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES},
-    {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT},
-    {ARIT3, RELOP, ARIT3},
-    {CMD},
-    {BLOCO},
-    {SENAO, CMD_BLOCO},
-    {EPSILON},
-    {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO},
-    {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES},
+    {FUNCTION, ID, ABRE_PARENTESES, FECHA_PARENTESES, BLOCO}, // 0
+    {ABRE_CHAVES, BLOCO_AUX, FECHA_CHAVES}, // 1
+    {DECL_VARS, CMDS}, // 2
+    {CMDS}, // 3
+    {DECL_VAR, DECL_VARS_FAT}, // 4
+    {DECL_VARS}, // 5
+    {EPSILON}, // 6
+    {TIPO, DOIS_PONTOS, LISTA_ID, PONTO_VIRGULA}, // 7
+    {ID, LISTA_ID_FAT}, // 8 
+    {VIRGULA, LISTA_ID}, // 9
+    {EPSILON}, // 10
+    {CMD, CMDS_FAT}, //11
+    {CMDS}, // 12
+    {EPSILON}, // 13
+    {CMD_ATRIB}, // 14
+    {CMD_COND},// 15
+    {CMD_REP}, // 16
+    {ID, IGUAL, ARIT3, PONTO_VIRGULA}, // 17
+    {ARIT2, ARIT3_}, // 18
+    {OP_ARIT_PREC3, ARIT2, ARIT3_}, // 19
+    {EPSILON}, //20
+    {ARIT1, ARIT2_}, // 21
+    {OP_ARIT_PREC2, ARIT1, ARIT2_}, //22
+    {EPSILON}, //23 
+    {ARIT_FATOR, ARIT1_}, //24
+    {OP_ARIT_PREC1, ARIT_FATOR, ARIT1_}, // 25
+    {EPSILON}, // 26
+    {ID}, //27
+    {CONST_INT}, // 28
+    {CONST_CHAR}, // 29
+    {CONST_FLOAT}, //30
+    {ABRE_PARENTESES, ARIT3, FECHA_PARENTESES}, //31
+    {SE, ABRE_PARENTESES, COND, FECHA_PARENTESES, ENTAO, CMD_BLOCO, SENAO_FAT}, // 32
+    {ARIT3, RELOP, ARIT3}, //33 
+    {CMD}, //34
+    {BLOCO}, //35
+    {SENAO, CMD_BLOCO}, //36
+    {EPSILON}, //37
+    {ENQUANTO, ABRE_PARENTESES, COND, FECHA_PARENTESES, FACA, CMD_BLOCO}, //38
+    {REPITA, CMD_BLOCO, ATE, ABRE_PARENTESES, COND, FECHA_PARENTESES}, // 39
 };
 
 map<int, map<int, int>> predictiveTable;
@@ -128,13 +128,13 @@ void populatePredictiveTable() {
     predictiveTable[CMD_BLOCO][SE] = 34;
     predictiveTable[CMD_BLOCO][ENQUANTO] = 34;
     predictiveTable[CMD_BLOCO][REPITA] = 34;
-    predictiveTable[SENAO_FAT][ABRE_CHAVES] = 37;
     predictiveTable[SENAO_FAT][ID] = 37;
     predictiveTable[SENAO_FAT][SE] = 37;
     predictiveTable[SENAO_FAT][ENQUANTO] = 37;
     predictiveTable[SENAO_FAT][REPITA] = 37;
     predictiveTable[SENAO_FAT][SENAO] = 36;
     predictiveTable[SENAO_FAT][ATE] = 37;
+    predictiveTable[SENAO_FAT][FECHA_CHAVES] = 37;
     predictiveTable[CMD_REP][ENQUANTO] = 38;
     predictiveTable[CMD_REP][REPITA] = 39;
 }
