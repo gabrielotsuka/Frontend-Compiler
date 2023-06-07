@@ -201,7 +201,18 @@ void throwError(Token token, int expected) {
     cout << "Encontrado: " << symbolNames[token.type] << endl;
 }
 
+void printPilha(stack<int> s) {
+    while(!s.empty()) {
+        int top = s.top();
+        cout << symbolNames[top] << " ";
+        s.pop();
+    }
+    cout << endl;
+}
+
+
 int main() {
+    cout << "====================== inicio analise sintatica ======================\n";
     populatePredictiveTable();
     initialize_lexic();
     stack<int> stack;
@@ -209,13 +220,18 @@ int main() {
     Token currentToken = getToken();
 
     while(!stack.empty()) {
+        
         int currentSymbol = stack.top();
+        cout<< "\ntoken lido: "<< symbolNames[currentToken.type] << endl;
+        cout << "pilha: "; printPilha(stack);
+
         if(currentSymbol < 25) {
             if (currentSymbol != currentToken.type) {
                 throwError(currentToken, currentSymbol);
                 finalize_lexic();
                 return 1;
             }
+            cout << "MATCH! " << symbolNames[currentSymbol] << " == " << symbolNames[currentToken.type] << endl;
             stack.pop();
             currentToken = getToken();
         } else {
@@ -229,9 +245,12 @@ int main() {
             stack.pop();
             vector<int> productionBody = productions[productionIdx];
             if (productionBody[0] != EPSILON) {
+                cout << "TabelaPreditiva[" << symbolNames[currentSymbol] << "][" << symbolNames[currentToken.type] << "] = { ";
                 for (int i = productionBody.size()-1; i>=0; i--) {
+                    cout << symbolNames[productionBody[i]] << " ";
                     stack.push(productionBody[i]);
                 }    
+                cout << "}\n";
             }
         }
     }
