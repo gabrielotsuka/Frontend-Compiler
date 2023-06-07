@@ -235,12 +235,19 @@ int main() {
             stack.pop();
             currentToken = getToken();
         } else {
-            int productionIdx = predictiveTable[currentSymbol][currentToken.type];
-            if (productionIdx == -1) {
-                throwError(currentToken, currentSymbol);
+            int productionIdx = -1;
+            try {
+                productionIdx = predictiveTable.at(currentSymbol).at(currentToken.type);    
+            } catch(const std::out_of_range& e) {
+                while(stack.top() > 24) {
+                    stack.pop();
+                }
+                throwError(currentToken, stack.top());
                 finalize_lexic();
                 return 1;
             }
+            
+            // 
             // Trata produção // Constrói subárvore X ou executa ações semânticas
             stack.pop();
             vector<int> productionBody = productions[productionIdx];

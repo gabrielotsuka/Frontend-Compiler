@@ -9,7 +9,7 @@ function teste() {
     se (d > e) entao {
         int: j;
         repita 
-            f = d + e
+            f = d e;
         ate (g == h)
     } senao {
         enquanto (i <> a) faca {
