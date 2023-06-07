@@ -139,10 +139,66 @@ void populatePredictiveTable() {
     predictiveTable[CMD_REP][REPITA] = 39;
 }
 
+vector<string> symbolNames = {
+    "FUNCTION",	
+    "ABRE_CHAVES",	
+    "TIPO",	
+    "ID",	
+    "SE",	
+    "ENQUANTO",	
+    "REPITA",	
+    "VIRGULA",	
+    "CONST_INT",	
+    "CONST_CHAR",	
+    "CONST_FLOAT",
+    "ABRE_PARENTESES",
+    "OP_ARIT_PREC3",
+    "OP_ARIT_PREC2",
+    "OP_ARIT_PREC1",
+    "SENAO",
+    "ATE",
+    "FECHA_CHAVES",
+    "PONTO_VIRGULA",
+    "FECHA_PARENTESES",
+    "RELOP",
+    "FACA",
+    "ENTAO",
+    "DOIS_PONTOS",
+    "IGUAL",
+    "INI", 
+    "BLOCO", 
+    "BLOCO_AUX", 
+    "DECL_VARS", 
+    "DECL_VARS_FAT", 
+    "DECL_VAR", 
+    "LISTA_ID", 
+    "LISTA_ID_FAT", 
+    "CMDS", 
+    "CMDS_FAT", 
+    "CMD", 
+    "CMD_ATRIB", 
+    "ARIT3", 
+    "ARIT3_", 
+    "ARIT2", 
+    "ARIT2_", 
+    "ARIT1", 
+    "ARIT1_", 
+    "ARIT_FATOR", 
+    "CMD_COND", 
+    "COND", 
+    "CMD_BLOCO", 
+    "SENAO_FAT",
+    "CMD_REP",
+    "EPSILON",
+    "NOTOKEN",
+    "ERROR"
+};
+
+
 void throwError(Token token, int expected) {
     cout << "Erro sintático na linha " << token.line << " e coluna " << token.column << endl;
-    cout << "Esperado: " << expected << endl;
-    cout << "Encontrado: " << token.type << endl;
+    cout << "Esperado: " << symbolNames[expected] << endl;
+    cout << "Encontrado: " << symbolNames[token.type] << endl;
 }
 
 int main() {
@@ -154,7 +210,6 @@ int main() {
 
     while(!stack.empty()) {
         int currentSymbol = stack.top();
-        cout<< "token lido"<< currentToken.type<<"\n"<<"topo da pilha" << currentSymbol<<endl << endl;
         if(currentSymbol < 25) {
             if (currentSymbol != currentToken.type) {
                 throwError(currentToken, currentSymbol);
@@ -165,7 +220,6 @@ int main() {
             currentToken = getToken();
         } else {
             int productionIdx = predictiveTable[currentSymbol][currentToken.type];
-            cout << productionIdx << endl;
             if (productionIdx == -1) {
                 throwError(currentToken, currentSymbol);
                 finalize_lexic();
@@ -187,7 +241,7 @@ int main() {
         finalize_lexic();
         return 1;
     } else {
-        cout << "aceita" << endl;
+        cout << "Codigo fonte sintaticamente correto!" << endl;
     }
 
     finalize_lexic();

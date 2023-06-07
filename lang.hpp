@@ -2,8 +2,6 @@
 using namespace std;
 
 //Terminal
-#define NOTOKEN -2
-#define ERROR -1
 #define FUNCTION 0	
 #define ABRE_CHAVES 1	
 #define TIPO 2	
@@ -56,6 +54,8 @@ using namespace std;
 #define SENAO_FAT 47
 #define CMD_REP 48
 #define EPSILON 49
+#define NOTOKEN 50
+#define ERROR 51
 
 typedef struct t{
     int type;
